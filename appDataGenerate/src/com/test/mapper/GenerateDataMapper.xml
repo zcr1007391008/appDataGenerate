@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.GenerateDataMapper" >
+
+<insert id="addGenerateAndGetPrimayKey" parameterType="com.test.model.GenerateUser" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+	insert into generate(username,generate_date) values (#{username},#{generate_date})
+</insert>
+
+<insert id="addGenerateFormatAndGetPrimaryKey" parameterType="com.test.model.GenerateFormat" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+	insert into data_format(pattern,generate_id) values (#{pattern},#{generate_id})
+</insert>
+
+<insert id="addGeneratedData" parameterType="com.test.model.GeneratedData">
+	insert into generated_data(json_data,row_num,data_format_id) values (#{json_data},#{row_num},#{data_format_id})
+</insert>
+
+
+<insert id="addGenrateDataAndGetPrimayKey" parameterType="com.test.model.GenerateUser" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+	insert into generate(username,generate_date,file_name) values (#{username},#{generate_date},#{file_name})
+</insert>
+
+
+</mapper>

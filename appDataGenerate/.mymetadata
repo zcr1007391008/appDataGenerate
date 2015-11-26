@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="appDataGenerate"
+  id="myeclipse.1420007365157"
+  context-root="/appDataGenerate"
+  j2ee-spec="6.0"
+  archive="appDataGenerate.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

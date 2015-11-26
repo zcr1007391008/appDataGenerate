@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.AccountCardMapper" >
+
+<insert id="insertAccountCard" parameterType="com.test.model.AccountCard" >
+	insert into account_card(account_id,card_id,brand_id,front_picture_url,back_picture_url,remark,add_dates,last_edit_time)
+	values (#{account_id},#{card_id},#{brand_id},#{front_picture_url},#{back_picture_url},#{remark},#{add_dates},#{last_edit_time})
+</insert>
+
+<update id="deleteAccountCardByUserId" parameterType="Integer">
+	<!-- delete from account_card where user_id = #{user_id} -->
+	update account_card set status = 1 where user_id = #{user_id}
+</update>
+
+<select id="selectAccountCardInPage" resultType="com.test.model.AccountCard" parameterType="Integer">
+	<!-- select * from account_card where status = 0 order by user_id asc limit #{start},#{end}   -->
+	select 
+	user_id,
+	account_id,
+	ifnull(account_id,"") as account_id,
+	brand_id,
+	ifnull(front_picture_url,"") as front_picture_url,
+	ifnull(back_picture_url,"") as back_picture_url,
+	ifnull(remark,"") as remark,
+	add_dates,
+	last_edit_time
+	from account_card
+	where status = 0
+	order by user_id asc 
+	limit #{start},#{end}
+</select>
+
+
+<select id="selectAccountCardByCardID" parameterType="Integer" resultType="com.test.model.AccountCard">
+	select 
+	user_id,
+	account_id,
+	ifnull(account_id,"") as account_id,
+	brand_id,
+	ifnull(front_picture_url,"") as front_picture_url,
+	ifnull(back_picture_url,"") as back_picture_url,
+	ifnull(remark,"") as remark,
+	add_dates,
+	last_edit_time
+	from account_card
+	where status = 0 
+	and user_id = #{user_id}
+</select>
+
+
+
+<update id="updateAccountCardByUserId" parameterType="com.test.model.AccountCard" >
+	update account_card set account_id = #{account_id},card_id =#{card_id},brand_id = #{brand_id},
+	remark=#{remark},last_edit_time=(select now())  where user_id = #{user_id}
+</update>
+
+
+<select id="selectAccountCardPictureUrl" parameterType="Integer" resultType="Map">
+	select ifnull(front_picture_url,'') as front_picture_url,ifnull(back_picture_url,'') as back_picture_url  from account_card where user_id = #{user_id}
+</select>
+
+
+<update id="updateAccountCardPicture" parameterType="Map">
+	${sql}
+</update>
+
+
+<update id="updateAccountCardWithPictureByUserId" parameterType="com.test.model.AccountCard" >
+	update account_card set 
+	<if test="account_id!=0">
+		account_id = #{account_id},
+	</if>
+	<if test="card_id!=null">
+		card_id =#{card_id},
+	</if>
+	<if test="brand_id!=0">
+		brand_id = #{brand_id},
+	</if>
+	<if test="remark!=null">
+		remark=#{remark},
+	</if>
+	
+	<if test="front_picture_url!=null">
+		front_picture_url = #{front_picture_url},
+	</if>
+	<if test="back_picture_url!=null">
+		back_picture_url = #{back_picture_url},
+	</if>
+	last_edit_time= #{last_edit_time}
+	
+	where user_id = #{user_id}
+</update>
+
+<insert id="addAccountCardUseJson" parameterType="Map">
+	<![CDATA[ ${sql} ]]>
+</insert>
+
+
+</mapper>

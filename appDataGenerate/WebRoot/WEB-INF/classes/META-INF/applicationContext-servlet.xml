@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	<!-- 注册@controller -->
+	<context:component-scan base-package="com.test.controller" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+	
+	<!-- 加载默认的响应方式 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	</bean>
+	
+	<!-- 配置@ResponseBody注解返回的方式制定为json -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+					<property name="supportedMediaTypes">
+						<list>
+							<value>text/html;charset=UTF-8</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+				<bean class="org.springframework.http.converter.FormHttpMessageConverter"/>
+				<!-- 配置返回以json -->
+				<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="conversion-service" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
+	
+	<!-- 配置modelandview类省去的前缀和后缀 -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/jsp/" />
+		<property name="suffix" value=".jsp" />
+		<property name="exposeContextBeansAsAttributes" value="true" />
+	</bean>
+	
+	 <!-- 对静态资源文件的访问 配合sevlet(/)的匹配方式--> 
+	<mvc:resources mapping="/commons/**" location="/commons/" />
+	<mvc:resources mapping="/css/**" location="/css/" />
+	<mvc:resources mapping="/img/**" location="/img/" />
+	<mvc:resources mapping="/img_/**" location="/img_/" />
+	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+	
+	<mvc:resources mapping="/brandLogo/**" location="/brandLogo/" />
+	<mvc:resources mapping="/accountPicture/**" location="/accountPicture/" />
+	
+	
+	<mvc:resources mapping="/tooltip/**" location="/tooltip/" />
+	<mvc:resources mapping="/tabs/**" location="/tabs/" />
+	<!-- 上传文件控制大小 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="maxUploadSize" value="104857600" /><!-- 10485760 = 1024 * 1024 * 100 -->
+		<property name="maxInMemorySize" value="-1"/> <!-- 最大文件大小，-1为无限止(-1) -->  
+	</bean>
+</beans>

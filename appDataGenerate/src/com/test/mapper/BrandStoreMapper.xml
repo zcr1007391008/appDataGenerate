@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.BrandStoreMapper" >
+
+<insert id="insertIntoBranStore" parameterType="com.test.model.BrandStore" >
+<![CDATA[
+	insert into brand_store
+	(name,has_barcode,barcode_format,barcode,homepage,regions,
+	other_stores,typos,logo,android_banner_url,ios_banner_url,
+	ios_logo_url,background_color,add_dates,last_edit_dates,download_message)
+	values
+	(#{name},#{has_barcode},#{barcode_format},#{barcode},#{homepage},#{regions},
+	#{other_stores},#{typos},#{logo},#{android_banner_url},#{ios_banner_url},
+	#{ios_logo_url},#{background_color},(select now()),(select now()),#{download_message})
+]]>
+</insert>
+
+
+
+<update id="updateBrandStore" parameterType="com.test.model.BrandStore">
+
+	update brand_store set
+	<if test="name!=null">
+		name=#{name},
+	</if>
+	<if test="has_barcode !=null">
+		has_barcode=#{has_barcode},
+	</if>
+	<if test=" barcode_format !=null">
+		barcode_format=#{barcode_format},
+	</if>
+	<if test=" barcode!=null">
+		barcode=#{barcode},
+	</if>
+	<if test=" homepage!=null">
+		homepage=#{homepage},
+	</if>
+	<if test="regions !=null">
+		regions=#{regions},
+	</if>
+	<if test="typos !=null">
+		typos=#{typos},
+	</if>
+	<if test=" logo!=null">
+		logo=#{logo},
+	</if>
+	<if test="other_stores !=null">
+		other_stores=#{other_stores},
+	</if>
+	<if test="android_banner_url !=null">
+		android_banner_url=#{android_banner_url},
+	</if>
+	<if test="ios_banner_url !=null">
+		ios_banner_url=#{ios_banner_url},
+	</if>
+	<if test="ios_logo_url !=null">
+		ios_logo_url=#{ios_logo_url},
+	</if>
+	<if test="background_color !=null">
+		background_color=#{background_color},
+	</if>
+	<if test="add_dates !=null">
+		add_dates=#{add_dates},
+	</if>
+	
+	<if test=" status!=null">
+		status=#{status},
+	</if>
+	
+	last_edit_dates=(select now())
+	
+	where id =#{id} 
+</update>
+
+<select id="selectBrandStoreInPage"  parameterType="Map" resultType="com.test.model.BrandStore">
+	select 
+	id,
+	ifnull(name,"") as name,
+	ifnull(has_barcode,0) as  has_barcode,
+	ifnull(barcode_format,"") as barcode_format ,
+	ifnull(barcode,"") as  barcode,
+	ifnull(homepage,"") as  homepage,
+	ifnull(regions,"") as  regions,
+	ifnull(other_stores,"") as  other_stores,
+	ifnull(typos,"typos") as typos ,
+	ifnull(logo,"logo") as  logo,
+	ifnull(android_banner_url,"") as  android_banner_url,
+	ifnull(ios_banner_url,"") as  ios_banner_url,
+	ifnull(ios_logo_url,"") as  ios_logo_url,
+	ifnull(background_color,"") as  background_color,
+	ifnull(add_dates,"") as  add_dates,
+	ifnull(last_edit_dates,"") as  last_edit_dates ,
+	ifnull(status,0) as  status,
+	ifnull(download_message,"") as download_message 
+	
+	from brand_store
+	order by id asc
+	limit #{beforeNum},#{size}
+</select>
+
+<select id="selectBrandStoreById"  parameterType="int" resultType="com.test.model.BrandStore">
+	select 
+	id,
+	ifnull(name,"") as name,
+	ifnull(has_barcode,0) as  has_barcode,
+	ifnull(barcode_format,"") as barcode_format ,
+	ifnull(barcode,"") as  barcode,
+	ifnull(homepage,"") as  homepage,
+	ifnull(regions,"") as  regions,
+	ifnull(other_stores,"") as  other_stores,
+	ifnull(typos,"typos") as typos ,
+	ifnull(logo,"logo") as  logo,
+	ifnull(android_banner_url,"") as  android_banner_url,
+	ifnull(ios_banner_url,"") as  ios_banner_url,
+	ifnull(ios_logo_url,"") as  ios_logo_url,
+	ifnull(background_color,"") as  background_color,
+	ifnull(add_dates,"") as  add_dates,
+	ifnull(last_edit_dates,"") as  last_edit_dates ,
+	ifnull(status,0) as  status,
+	ifnull(download_message,"") as download_message 
+	
+	from brand_store
+	where id = #{id}
+	
+</select>
+
+<select id="selectLogoUrlById" parameterType="int" resultType="Map">
+	select 
+	ifnull(android_banner_url,"") as android_banner_url, 
+	ifnull(ios_banner_url,"") as ios_banner_url,
+	ifnull(ios_logo_url,"") as ios_logo_url
+	from brand_store
+	where id = #{id}
+</select>
+
+
+<select id="selectCityNameAndCountryById" parameterType="int" resultType="Map">
+	select city_name,
+	from 
+	
+</select>
+
+
+<select id="selectAllCityMessage" resultType="com.test.model.City">
+	select * from city
+<!-- select city_id, city_name, country_id  from city -->
+</select>
+
+<select id="selectAllCountryMessage" resultType="com.test.model.Country">
+	select *  from country
+</select>
+
+</mapper>

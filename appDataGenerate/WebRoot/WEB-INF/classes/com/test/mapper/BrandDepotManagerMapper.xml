@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.mapper.BrandDepotManagerMapper" >
+
+<insert id="addBrand" parameterType="com.test.model.Brand" useGeneratedKeys="true" keyProperty="brand_id" keyColumn="brand_id">
+	insert into Brand(logo_url,brand_backgorund_color,isExist_code,bar_code,add_dates,last_editTime)
+	values(#{logo_url},#{brand_backgorund_color},#{isExist_code},#{bar_code},#{add_dates},#{last_editTime})
+</insert>
+
+
+<update id="updateBrand" parameterType="com.test.model.Brand">
+	update brand set 
+	<if test="logo_url!=null">
+		logo_url = #{logo_url},
+	</if>
+	
+	brand_backgorund_color=#{brand_backgorund_color},
+	isExist_code=#{isExist_code},
+	bar_code=#{bar_code},
+	last_editTime= #{last_editTime}
+	where brand_id=#{brand_id}
+</update>
+
+<update id="updateBrandWithoutLogo" parameterType="com.test.model.Brand">
+	update brand set 
+	brand_backgorund_color=#{brand_backgorund_color},
+	isExist_code=#{isExist_code},
+	bar_code=#{bar_code},
+	last_editTime= #{last_editTime}
+	where brand_id=#{brand_id}
+</update>
+
+<update id="updateBrandOnlyLogo" parameterType="Map">
+	update brand set 
+	<if test="logo_url!=null">
+		logo_url = #{logo_url},
+	</if>
+	last_editTime= #{last_editTime}
+	where brand_id=#{brand_id}
+</update>
+
+
+
+<select id="selectBrandInPage" parameterType="Integer" resultType="com.test.model.Brand">
+	select * from Brand order by brand_id asc limit #{start},#{end} 
+</select>
+
+
+<select id="selectBrandLogo" parameterType="Integer" resultType="String">
+	select ifnull(logo_url,"") as logo_url from brand where brand_id = #{brand_id}
+</select>
+
+
+</mapper>

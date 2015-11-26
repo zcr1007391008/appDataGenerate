@@ -1,0 +1,25 @@
+
+
+
+
+
+$('table#table5').styleTable({  
+    th_bgcolor: '#BCD4EC',  
+    th_image: './images/center.jpg',  
+    th_color: '#000000',  
+    th_border_color: '#333333',  
+    tr_odd_image: './images/formbg.gif',  
+    tr_even_image: './images/hnav-a-bg-black.jpg',  
+    tr_hover_image: './images/s_bg.jpg',  
+    tr_even_color: '#ffffff',  
+    tr_border_color: '#cccccc'  
+});
+
+
+
+.deleteUser
+{
+	
+	border:0;
+	 background:"./images/publish_r.png" no-repeat left top"
+}
